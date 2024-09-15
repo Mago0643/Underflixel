@@ -1,0 +1,6 @@
+{
+  "dialogue": [
+    {"text": "A Long Ago", "char": "", "font": "", "offset": 0, "cannotSkip": false, "forceEnd": -1}
+  ],
+  "id": "intro_story"
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<!-- _________________________ Application Settings _________________________ -->
+
+	<app title="Underflixel" file="Underflixel" main="Main" version="0.0.1" company="Lego0_77" />
+
+	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
+		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
+	<app preloader="flixel.system.FlxPreloader" />
+
+	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
+	<set name="SWF_VERSION" value="11.8" />
+
+	<!-- ____________________________ Window Settings ___________________________ -->
+
+	<!--These window settings apply to all targets-->
+	<window width="640" height="480" fps="30" background="#000000" hardware="true" vsync="false" resizable="false" />
+
+	<!--HTML5-specific-->
+	<window if="html5" />
+
+	<!--Desktop-specific-->
+	<window if="desktop" orientation="landscape" fullscreen="false" />
+
+	<!--Mobile-specific-->
+	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
+
+	<!-- _____________________________ Path Settings ____________________________ -->
+
+	<set name="BUILD_DIR" value="export" />
+	<source path="source" />
+
+	<!-- If you put assets on this folder, it will be included in .exe -->
+	<!-- No one can't browse game assets if you're not releasing source code. -->
+	<assets path="assets" embed='true' />
+	<!-- If you put assets on this folder, it will be included in build. -->
+	<!-- Anyone can browse game assets. -->
+	<assets path="assetsEmbed" rename='assets' />
+
+	<!-- _______________________________ Libraries ______________________________ -->
+
+	<haxelib name="flixel" />
+	<haxelib name="flixel-addons" />
+	<haxelib name="flixel-ui" />
+
+	<!-- ______________________________ Haxedefines _____________________________ -->
+
+	<haxedef name="FLX_NO_HEALTH" />
+	<haxedef name="FLX_NO_MOUSE" if="mobile" />
+	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
+	<haxedef name="FLX_NO_TOUCH" if="desktop" />
+	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
+	<haxedef name="FLX_NO_DEBUG" unless="debug" />
+	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
+	<haxedef name="message.reporting" value="pretty" />
+
+	<!-- _________________________________ Custom _______________________________ -->
+
+	<!-- Put yo icons -->
+	<icon  path="icons/icon_8.png"  size="8"/>
+	<icon path="icons/icon_16.png" size="16"/>
+	<icon path="icons/icon_32.png" size="32"/>
+	<icon path="icons/icon_64.png" />
+</project>
