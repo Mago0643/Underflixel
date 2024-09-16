@@ -1,7 +1,8 @@
 
-## Welcome to UnderFlixel! The Undertale Engine made of HaxeFlixel!
+## Welcome to UnderFlixel!
+The Undertale Engine made of HaxeFlixel!
 
-Currently Not Finished yet!
+(Currently Not Finished yet...)
 
 If you want to help to make this engine, message me on discord: `lego_077`,
 
