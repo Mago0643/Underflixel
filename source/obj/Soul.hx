@@ -4,7 +4,9 @@ class Soul extends FlxSpritePlus
 {
   public static var SOUL_COLORS = [FlxColor.CYAN, FlxColor.ORANGE, FlxColor.BLUE, FlxColor.PURPLE, FlxColor.GREEN, FlxColor.YELLOW, FlxColor.RED];
   public var type(default,set):SoulType;
-  public function new(soulType:SoulType)
+  public var box(default,set):BattleBox;
+  public var canMove:Bool = true;
+  public function new(soulType:SoulType, box:BattleBox)
   {
     super();
 
@@ -13,19 +15,14 @@ class Soul extends FlxSpritePlus
     animation.add('hurt', [1,0], 10);
     animation.play('normal', true);
     type = soulType;
+    this.box = box;
   }
 
   // TODO: Make Soul Mechanics.
   function set_type(t)
   {
     color = SOUL_COLORS[t];
-    switch (t)
-    {
-      default:
-        angle = 0;
-      case justice:
-        angle = 180;
-    }
+    
     centerOrigin();
     return type = t;
   }
@@ -33,19 +30,29 @@ class Soul extends FlxSpritePlus
   /**
     Soul's Speed. It's pps. (Pixels per Second)
   **/
-  public var speed:Float = 100;
+  public var speed:Float = 150;
   override function update(elapsed:Float)
   {
-    if (ControlsManager.data.left_pressed && x > 0)
-      x -= elapsed * speed;
-    if (ControlsManager.data.right_pressed && x < FlxG.width-width)
-      x += elapsed * speed;
-    if (ControlsManager.data.up_pressed && y > 0)
-      y -= elapsed * speed;
-    if (ControlsManager.data.down_pressed && y < FlxG.height-height)
-      y += elapsed * speed;
+    if (canMove)
+    {
+      if (ControlsManager.data.left_pressed && x > 0)
+        x -= elapsed * speed;
+      if (ControlsManager.data.right_pressed && x < FlxG.width-width)
+        x += elapsed * speed;
+      if (ControlsManager.data.up_pressed && y > 0)
+        y -= elapsed * speed;
+      if (ControlsManager.data.down_pressed && y < FlxG.height-height)
+        y += elapsed * speed;
+    }
 
     super.update(elapsed);
+  }
+
+  function set_box(b)
+  {
+    box = b;
+    colider = [b.lineLeft, b.lineLower, b.lineRight, b.lineUpper];
+    return b;
   }
 }
 

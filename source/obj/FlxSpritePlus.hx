@@ -9,19 +9,20 @@ import flixel.FlxObject;
 **/
 class FlxSpritePlus extends FlxSprite
 {
-  public var coliders:Array<FlxObject> = [];
+  public var colider:Array<FlxObject> = [];
   // needs for overlap thing
   var _tempObj:FlxObject;
   public function new(?x:Float, ?y:Float, ?simpleGraphic:FlxGraphicAsset)
   {
     _tempObj = new FlxObject();
+    _tempObj.cameras = cameras;
     super(x,y,simpleGraphic);
   }
 
   override function setPosition(x:Float = 0.0, y:Float = 0.0)
   {
-    updateTempObjectPosition(x, y, width, height, angle);
-    for (obj in coliders)
+    _tempObj.setPosition(x,y);
+    for (obj in colider)
     {
       if (obj.overlaps(_tempObj, camera))
         return;
@@ -31,16 +32,8 @@ class FlxSpritePlus extends FlxSprite
 
   override function setGraphicSize(width:Float = 0.0, height:Float = 0.0)
   {
-    updateTempObjectPosition(x, y, width, height, angle);
+    _tempObj.setSize(width, height);
     super.setGraphicSize(width, height);
-  }
-
-  function updateTempObjectPosition(x:Float, y:Float, w:Float, h:Float, a:Float)
-  {
-    _tempObj.setPosition(x, y);
-    _tempObj.setSize(w, h);
-    _tempObj.angle = a;
-    return _tempObj;
   }
 
   // Quick explan: when game sets x and y values, check the coliders overlaps to this sprite before rendering.
@@ -48,10 +41,13 @@ class FlxSpritePlus extends FlxSprite
   override function set_x(x)
   {
     _tempObj.x = x;
-    for (obj in coliders)
+    for (obj in colider)
     {
       if (obj.overlaps(_tempObj, camera))
+      {
+        _tempObj.x = this.x;
         return this.x;
+      }
     }
     return super.set_x(x);
   }
@@ -59,10 +55,13 @@ class FlxSpritePlus extends FlxSprite
   override function set_y(y)
   {
     _tempObj.y = y;
-    for (obj in coliders)
+    for (obj in colider)
     {
       if (obj.overlaps(_tempObj, camera))
+      {
+        _tempObj.y = this.y;
         return this.y;
+      }
     }
     return super.set_y(y);
   }
@@ -83,5 +82,14 @@ class FlxSpritePlus extends FlxSprite
   {
     _tempObj.height = h;
     return super.set_height(h);
+  }
+
+  /**
+    Gets an `width` and `height` without making an `FlxSprite`.
+  **/
+  public static function getSizeFromImage(name:String)
+  {
+    final spr = AssetPath.getImage(name);
+    return new FlxObject(0, 0, spr.width, spr.height);
   }
 }
