@@ -48,6 +48,7 @@ class StoryState extends Room
     {
       blah = true;
       FlxTween.tween(FlxG.camera, {alpha: 0}, .5);
+      FlxTween.tween(FlxG.sound.music, {volume: 0}, .5);
     }
 
     super.update(elapsed);
