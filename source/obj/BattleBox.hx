@@ -6,9 +6,9 @@ class BattleBox extends FlxTypedGroup<FlxSprite>
   public var y(default,set):Float = 0;
   public var alpha(default,set):Float = 1;
   public var angle(default,set):Float = 0;
-  public var width(default,set):Int = 100;
-  public var height(default,set):Int = 100;
-  public var stroke(default,set):Int = 10;
+  public var width(default,set):Int = 200;
+  public var height(default,set):Int = 215;
+  public var stroke(default,set):Int = 5;
   public var color(default,set):FlxColor = FlxColor.WHITE;
 
   public var lineUpper(default,null):FlxSprite;
@@ -16,7 +16,7 @@ class BattleBox extends FlxTypedGroup<FlxSprite>
   public var lineLeft(default,null):FlxSprite;
   public var lineRight(default,null):FlxSprite;
 
-  public function new(boxWidth:Int = 100, boxHeight:Int = 100, boxStroke:Int = 10, color:FlxColor = FlxColor.WHITE)
+  public function new(boxWidth:Int = 200, boxHeight:Int = 215, boxStroke:Int = 5, color:FlxColor = FlxColor.WHITE)
   {
     super();
 
@@ -32,10 +32,10 @@ class BattleBox extends FlxTypedGroup<FlxSprite>
   **/
   public function updateBox()
   {
-    lineLeft.destroy();
-    lineUpper.destroy();
-    lineLower.destroy();
-    lineRight.destroy();
+    if (lineLeft != null) lineLeft.destroy();
+    if (lineUpper != null) lineUpper.destroy();
+    if (lineLower != null) lineLower.destroy();
+    if (lineRight != null) lineRight.destroy();
     clear();
 
     var centerOfBox:Array<Float> = [(x+width+stroke)/2, (y+height+stroke)/2];
@@ -81,6 +81,21 @@ class BattleBox extends FlxTypedGroup<FlxSprite>
     lineRight.origin.set(centerOfBox[0], centerOfBox[1]);
     lineLower.origin.set(centerOfBox[0], centerOfBox[1]);
     lineUpper.origin.set(centerOfBox[0], centerOfBox[1]);
+  }
+
+  public function screenCenter(axis:FlxAxes = XY)
+  {
+    if (lineLeft == null || lineRight == null || lineLower == null || lineUpper == null) return;
+
+    if (axis == X)
+      x = (FlxG.width - (width + stroke)) / 2;
+    else if (axis == Y)
+      y = (FlxG.height - (height + stroke)) / 2;
+    else {
+      x = (FlxG.width - (width + stroke)) / 2;
+      y = (FlxG.height - (height + stroke)) / 2;
+    }
+    updateBoxTransform();
   }
 
   function set_x(x)
